@@ -6,20 +6,20 @@
     el: '#app',
     data: {
       newItem: '',
-      todos: [
-        {
-          title: 'task1',
-          isDone: false
+      todos: []
+    },
+    watch: {
+      // todosの配列の内容に変更があるとき、実行される。
+      todos: {
+        handler: function() {
+          localStorage.setItem('todos', JSON.stringify(this.todos));
         },
-        {
-          title: 'task2',
-          isDone: false
-        },
-        {
-          title: 'task3',
-          isDone: true
-        },
-      ]
+        deep: true
+      }
+    },
+    // todosをjsonから読み出す
+    mounted: function() {
+      this.todos = JSON.parse(localStorage.getItem('todos')) || [];
     },
     methods: {
       addItem() {
